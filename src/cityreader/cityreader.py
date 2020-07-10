@@ -31,7 +31,7 @@ def cityreader():
     with open("src/cityreader/cities.csv") as city:
       csv_reader = csv.reader(city)
       next(csv_reader)
-      cities = [City(x[0], x[3], x[4]) for x in csv_reader] 
+      cities = [City(x[0],  float(x[3]), float(x[4])) for x in csv_reader] 
       return cities
 
 cities = cityreader()
@@ -75,7 +75,6 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
   lats = [float(lat1), float(lat2)]
   lons = [float(lon1), float(lon2)]
-  # within = [city for city in cities if city.lat in range(min(lats), max(lats)) and city.lon in range (min(lons), max(lons))]
   within = [city for city in cities if float(city.lat) >= min(lats) and float(city.lat) <= max(lats) and float(city.lon) >= min(lons) and float(city.lon) <= max(lons)]
 
   # TODO Ensure that the lat and lon valuse are all floats
