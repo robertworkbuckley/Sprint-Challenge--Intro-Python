@@ -1,6 +1,13 @@
 # Create a class to hold a city location. Call the class "City". It should have
 # fields for name, lat and lon (representing latitude and longitude).
+class City():
+    def __init__(self, name, lat, lon):
+        self.name = name
+        self.lat = lat
+        self.lon = lon
 
+    def __str__(self):
+      return f"{self.name}, {self.lat}, {self.lon}"
 
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
@@ -14,16 +21,20 @@
 #
 # Note that the first line of the CSV is header that describes the fields--this
 # should not be loaded into a City object.
-cities = []
+import csv
 
-def cityreader(cities=[]):
+
+def cityreader():
   # TODO Implement the functionality to read from the 'cities.csv' file
   # For each city record, create a new City instance and add it to the 
   # `cities` list
-    
-    return cities
+    with open("src/cityreader/cities.csv") as city:
+      csv_reader = csv.reader(city)
+      next(csv_reader)
+      cities = [City(x[0], x[3], x[4]) for x in csv_reader] 
+      return cities
 
-cityreader(cities)
+cities = cityreader()
 
 # Print the list of cities (name, lat, lon), 1 record per line.
 for c in cities:
@@ -62,10 +73,18 @@ for c in cities:
 
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
-  within = []
+  lats = [float(lat1), float(lat2)]
+  lons = [float(lon1), float(lon2)]
+  # within = [city for city in cities if city.lat in range(min(lats), max(lats)) and city.lon in range (min(lons), max(lons))]
+  within = [city for city in cities if float(city.lat) >= min(lats) and float(city.lat) <= max(lats) and float(city.lon) >= min(lons) and float(city.lon) <= max(lons)]
 
   # TODO Ensure that the lat and lon valuse are all floats
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
 
   return within
+
+here = cityreader_stretch(45, -100, 32, -120, cities)
+
+for c in here:
+    print(c)
